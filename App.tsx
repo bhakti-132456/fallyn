@@ -6,13 +6,14 @@ import { Button } from './components/Button';
 import { Modal } from './components/Modal';
 import { AuctionsList } from './components/AuctionsList';
 import { AuctionDetail } from './components/AuctionDetail';
+import { TrendingSlider } from './components/TrendingSlider';
 import { Dashboard } from './components/Dashboard';
 import { Auth } from './components/Auth';
 import { Admin } from './components/Admin';
 import { StudioPage } from './app/studio/page';
 import { MOCK_PRODUCTS } from './services/mockData';
 import { interpolate } from './styles/motion';
-import { ArrowDown, Search, Lock, ShieldCheck, CreditCard, ChevronDown } from 'lucide-react';
+import { ArrowDown, Search, Lock, ShieldCheck, CreditCard, ChevronDown, Flame } from 'lucide-react';
 
 type ViewState = 'home' | 'auctions' | 'studio' | 'auction-detail' | 'dashboard' | 'admin' | 'auth';
 
@@ -241,36 +242,14 @@ const App: React.FC = () => {
           )}
         </Curtain>
 
-        {/* CURTAIN 2: FALLING PRICE */}
-        <Curtain id="falling-price" className="h-screen bg-[#0F1115]">
+        {/* CURTAIN 2: TRENDING SLIDER */}
+        <Curtain id="trending" className="h-screen bg-[#0F1115]">
           {({ progress }) => (
-            <div className="h-full w-full relative flex items-center justify-center">
-              <div className="absolute inset-0 z-0 opacity-40">
-                <img
-                  src="https://images.unsplash.com/photo-1621330396167-b3d451b9b83b?q=80&w=1000&auto=format&fit=crop&grayscale"
-                  className="w-full h-full object-cover"
-                  alt="Background"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/50 to-transparent" />
-              </div>
-              <div className="relative z-10 text-center space-y-2 px-6">
-                <p
-                  className="text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-accent mb-4"
-                  style={{ opacity: interpolate(progress, [0.2, 0.4], [0, 1]) }}
-                >
-                  Live Market Data
-                </p>
-                <div style={{ transform: `scale(${interpolate(progress, [0.2, 0.8], [0.9, 1.1])})` }}>
-                  <PriceDisplay price={demoPrice} size="xl" className="justify-center" />
-                </div>
-                <p
-                  className="text-secondary text-xs md:text-sm mt-4 font-mono opacity-70"
-                  style={{ opacity: interpolate(progress, [0.4, 0.6], [0, 1]) }}
-                >
-                  iPhone 15 Pro Max • 1TB • Titanium
-                </p>
-              </div>
-            </div>
+            <TrendingSlider
+              products={MOCK_PRODUCTS.slice(0, 3)}
+              onSelect={handleSelectProduct}
+              progress={progress}
+            />
           )}
         </Curtain>
 
