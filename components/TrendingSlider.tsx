@@ -12,8 +12,16 @@ interface TrendingSliderProps {
 
 export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSelect, progress }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
     const touchStartX = useRef<number | null>(null);
     const touchEndX = useRef<number | null>(null);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -124,12 +132,12 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                                         <div className="flex items-end justify-between md:justify-start md:gap-16 mb-8">
                                             <div>
                                                 <p className="text-secondary/60 text-[10px] uppercase tracking-widest mb-2">Live Price</p>
-                                                <PriceDisplay price={product.currentPrice} size="lg" />
+                                                <PriceDisplay price={product.currentPrice} size={isMobile ? "md" : "lg"} />
                                             </div>
                                             <div className="text-right md:text-left">
                                                 <p className="text-secondary/60 text-[10px] uppercase tracking-widest mb-2">Drop</p>
-                                                <div className="text-accent flex items-center gap-2 text-2xl md:text-4xl font-bold justify-end md:justify-start tabular-nums">
-                                                    <TrendingDown size={24} className="md:w-8 md:h-8" />
+                                                <div className={`text-accent flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-2xl md:text-4xl'} font-bold justify-end md:justify-start tabular-nums`}>
+                                                    <TrendingDown size={isMobile ? 20 : 24} className="md:w-8 md:h-8" />
                                                     {discount > 0 ? discount.toFixed(1) : "35.2"}%
                                                 </div>
                                             </div>
