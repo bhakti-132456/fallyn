@@ -58,7 +58,7 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                 {products.map((product, index) => (
                     <div
                         key={`bg-${product.id}`}
-                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === activeIndex ? 'opacity-40' : 'opacity-0'
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === activeIndex ? 'opacity-30' : 'opacity-0'
                             }`}
                     >
                         <img
@@ -72,8 +72,8 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
             </div>
 
             {/* Content Container */}
-            <div className="container mx-auto px-6 relative z-10 h-full flex items-center justify-center">
-                <div className="max-w-6xl w-full mx-auto h-full md:h-auto py-12 md:py-0">
+            <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
+                <div className="max-w-6xl w-full mx-auto h-full md:h-auto flex flex-col justify-center py-4 md:py-0">
                     {products.map((product, index) => {
                         const isActive = index === activeIndex;
                         const discount = ((product.startPrice - product.currentPrice) / product.startPrice) * 100;
@@ -81,11 +81,11 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                         return (
                             <div
                                 key={product.id}
-                                className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 transition-all duration-700 h-full w-full ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute pointer-events-none'
+                                className={`flex flex-col md:flex-row items-center gap-4 md:gap-16 transition-all duration-700 h-full md:h-auto w-full ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute pointer-events-none'
                                     }`}
                             >
-                                {/* Desktop: Image Card | Mobile: Aspect Box or Floating Layer */}
-                                <div className="w-full md:w-1/2 aspect-[4/5] md:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 relative group shadow-2xl">
+                                {/* Image Card */}
+                                <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 relative group shadow-2xl shrink-0">
                                     <img
                                         src={product.images[0]}
                                         alt={product.name}
@@ -93,21 +93,21 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                                     />
 
                                     {/* Status Overlay */}
-                                    <div className="absolute top-4 left-4 z-20">
-                                        <div className="bg-orange-500/20 backdrop-blur-md border border-orange-500/30 text-orange-500 px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] flex items-center gap-2">
-                                            <Flame size={14} fill="currentColor" />
+                                    <div className="absolute top-3 left-3 z-20">
+                                        <div className="bg-orange-500/20 backdrop-blur-md border border-orange-500/30 text-orange-500 px-3 py-1 rounded-full text-[9px] md:text-sm font-bold uppercase tracking-[0.1em] flex items-center gap-1.5">
+                                            <Flame size={12} fill="currentColor" />
                                             Hot Price
                                         </div>
                                     </div>
 
-                                    {/* Mobile-only Gradient Content Overlay (The "Fading Gradient") */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent md:hidden flex flex-col justify-end p-6">
-                                        <div className="space-y-4">
-                                            <p className="text-accent font-mono text-[9px] uppercase tracking-[0.3em]">Trending Auction</p>
-                                            <h2 className="text-3xl font-heading font-semibold tracking-tight text-white leading-tight">
+                                    {/* Mobile-only Gradient Content Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent md:hidden flex flex-col justify-end p-4">
+                                        <div className="space-y-1.5">
+                                            <p className="text-accent font-mono text-[8px] uppercase tracking-[0.3em]">Trending</p>
+                                            <h2 className="text-xl font-heading font-semibold tracking-tight text-white leading-tight">
                                                 {product.name}
                                             </h2>
-                                            <p className="text-secondary/90 text-xs line-clamp-2 max-w-[80%] leading-relaxed">
+                                            <p className="text-secondary/80 text-[10px] line-clamp-1 max-w-[90%] font-medium">
                                                 {product.description}
                                             </p>
                                         </div>
@@ -115,8 +115,8 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                                 </div>
 
                                 {/* Info Layer */}
-                                <div className="w-full md:w-1/2 text-left flex flex-col justify-center space-y-6">
-                                    {/* Desktop Only Typography (Hidden on mobile as it's in the overlay) */}
+                                <div className="w-full md:w-1/2 text-left flex flex-col justify-center space-y-4 md:space-y-6">
+                                    {/* Desktop Only Typography */}
                                     <div className="hidden md:block space-y-2">
                                         <p className="text-accent font-mono text-xs uppercase tracking-[0.3em]">Trending Auction</p>
                                         <h2 className="text-6xl font-heading font-semibold tracking-tight text-white">
@@ -127,25 +127,25 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                                         </p>
                                     </div>
 
-                                    {/* Pricing and Action (Visible on both, but styled for mobile) */}
-                                    <div className="bg-white/[0.02] md:bg-transparent p-6 md:p-0 rounded-2xl border border-white/5 md:border-0">
-                                        <div className="flex items-center justify-between md:justify-start md:gap-12 mb-6 md:py-4 md:border-y md:border-white/5">
+                                    {/* Pricing and Action */}
+                                    <div className="bg-white/[0.03] md:bg-transparent p-4 md:p-0 rounded-2xl border border-white/5 md:border-0 w-full backdrop-blur-sm">
+                                        <div className="flex items-end justify-between md:justify-start md:gap-12 mb-4 md:py-4 md:border-y md:border-white/5">
                                             <div>
-                                                <p className="text-secondary text-[10px] uppercase tracking-widest mb-1 md:mb-2">Live Price</p>
-                                                <PriceDisplay price={product.currentPrice} size="lg" />
+                                                <p className="text-secondary/60 text-[8px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Live Price</p>
+                                                <PriceDisplay price={product.currentPrice} size="sm" className="md:size-lg" />
                                             </div>
-                                            <div>
-                                                <p className="text-secondary text-[10px] uppercase tracking-widest mb-1 md:mb-2 text-right md:text-left">Drop</p>
-                                                <div className="text-accent flex items-center gap-1.5 text-xl md:text-2xl font-bold justify-end md:justify-start">
-                                                    <TrendingDown size={20} className="md:w-6 md:h-6" />
+                                            <div className="text-right md:text-left">
+                                                <p className="text-secondary/60 text-[8px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Drop</p>
+                                                <div className="text-accent flex items-center gap-1 text-base md:text-2xl font-bold justify-end md:justify-start">
+                                                    <TrendingDown size={14} className="md:w-6 md:h-6" />
                                                     {discount > 0 ? discount.toFixed(1) : "35.2"}%
                                                 </div>
                                             </div>
                                         </div>
 
                                         <Button
-                                            size="lg"
-                                            className="w-full md:w-auto px-8"
+                                            size="md"
+                                            className="w-full md:w-auto px-8 md:py-4 text-sm md:text-base font-semibold"
                                             onClick={() => onSelect(product.id)}
                                         >
                                             View Auction
@@ -158,13 +158,13 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                 </div>
             </div>
 
-            {/* Manual Controls - Hidden on basic mobile to rely on swipe */}
-            <div className="absolute bottom-8 right-0 left-0 md:left-auto md:right-12 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-4 z-20">
-                <div className="flex gap-2">
+            {/* Manual Controls */}
+            <div className="absolute bottom-6 right-0 left-0 md:left-auto md:right-12 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4 z-20">
+                <div className="flex gap-1.5 md:gap-2">
                     {products.map((_, i) => (
                         <div
                             key={i}
-                            className={`h-1 transition-all duration-300 rounded-full ${i === activeIndex ? 'w-8 bg-accent' : 'w-2 bg-white/20'
+                            className={`h-0.5 md:h-1 transition-all duration-300 rounded-full ${i === activeIndex ? 'w-6 md:w-8 bg-accent' : 'w-1.5 md:w-2 bg-white/20'
                                 }`}
                         />
                     ))}
