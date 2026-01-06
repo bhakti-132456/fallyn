@@ -36,44 +36,40 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
     const handleTouchEnd = () => {
         if (!touchStartX.current || !touchEndX.current) return;
         const distance = touchStartX.current - touchEndX.current;
-        const isLeftSwipe = distance > 50;
-        const isRightSwipe = distance < -50;
-
-        if (isLeftSwipe) nextSlide();
-        if (isRightSwipe) prevSlide();
-
+        if (distance > 50) nextSlide();
+        if (distance < -50) prevSlide();
         touchStartX.current = null;
         touchEndX.current = null;
     };
 
     return (
         <div
-            className="relative w-full h-full overflow-hidden flex items-center justify-center bg-canvas"
+            className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-canvas selection:bg-accent selection:text-white"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
-            {/* Background Slides (Mobile Only - Full Screen Image) */}
-            <div className="absolute inset-0 z-0 md:hidden">
+            {/* Background Slides (Blurred Atmosphere) */}
+            <div className="absolute inset-0 z-0">
                 {products.map((product, index) => (
                     <div
                         key={`bg-${product.id}`}
-                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === activeIndex ? 'opacity-30' : 'opacity-0'
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === activeIndex ? 'opacity-20' : 'opacity-0'
                             }`}
                     >
                         <img
                             src={product.images[0]}
-                            alt={product.name}
-                            className="w-full h-full object-cover grayscale"
+                            alt=""
+                            className="w-full h-full object-cover grayscale blur-2xl scale-110"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/60 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-canvas via-transparent to-canvas" />
                     </div>
                 ))}
             </div>
 
-            {/* Content Container */}
-            <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
-                <div className="max-w-6xl w-full mx-auto h-full md:h-auto flex flex-col justify-center py-4 md:py-0">
+            {/* Main Container: Mobile focus fits in 9:16 mockup */}
+            <div className="container mx-auto px-6 relative z-10 h-full flex items-center justify-center">
+                <div className="w-full max-w-[1400px] flex items-center justify-center">
                     {products.map((product, index) => {
                         const isActive = index === activeIndex;
                         const discount = ((product.startPrice - product.currentPrice) / product.startPrice) * 100;
@@ -81,71 +77,67 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                         return (
                             <div
                                 key={product.id}
-                                className={`flex flex-col md:flex-row items-center gap-4 md:gap-16 transition-all duration-700 h-full md:h-auto w-full ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute pointer-events-none'
+                                className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16 transition-all duration-700 w-full ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 absolute pointer-events-none'
                                     }`}
                             >
-                                {/* Image Card */}
-                                <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 relative group shadow-2xl shrink-0">
+                                {/* Visual Card (The 9:16 Frame feel on mobile) */}
+                                <div className="relative w-full max-w-[380px] md:max-w-none md:w-1/2 aspect-[9/12] md:aspect-[4/3] rounded-[2rem] overflow-hidden border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] group">
                                     <img
                                         src={product.images[0]}
                                         alt={product.name}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105"
                                     />
 
-                                    {/* Status Overlay */}
-                                    <div className="absolute top-3 left-3 z-20">
-                                        <div className="bg-orange-500/20 backdrop-blur-md border border-orange-500/30 text-orange-500 px-3 py-1 rounded-full text-[9px] md:text-sm font-bold uppercase tracking-[0.1em] flex items-center gap-1.5">
-                                            <Flame size={12} fill="currentColor" />
+                                    {/* Hot Price Badge */}
+                                    <div className="absolute top-4 left-4 z-20">
+                                        <div className="bg-orange-500/20 backdrop-blur-xl border border-orange-500/30 text-orange-500 px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-2 shadow-lg">
+                                            <Flame size={14} fill="currentColor" />
                                             Hot Price
                                         </div>
                                     </div>
 
-                                    {/* Mobile-only Gradient Content Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent md:hidden flex flex-col justify-end p-4">
-                                        <div className="space-y-1.5">
-                                            <p className="text-accent font-mono text-[8px] uppercase tracking-[0.3em]">Trending</p>
-                                            <h2 className="text-xl font-heading font-semibold tracking-tight text-white leading-tight">
-                                                {product.name}
-                                            </h2>
-                                            <p className="text-secondary/80 text-[10px] line-clamp-1 max-w-[90%] font-medium">
+                                    {/* Gradient Overlay + Identity (Title/Desc on Mobile) */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-6 md:p-12">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <p className="text-accent font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] mb-2 drop-shadow-sm">Trending Auction</p>
+                                                <h2 className="text-3xl md:text-7xl font-heading font-semibold tracking-tight text-white leading-[1.1] drop-shadow-md">
+                                                    {product.name}
+                                                </h2>
+                                            </div>
+                                            <p className="text-secondary/90 text-[13px] md:text-xl line-clamp-2 md:line-clamp-none max-w-xl leading-relaxed md:hidden">
                                                 {product.description}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Info Layer */}
-                                <div className="w-full md:w-1/2 text-left flex flex-col justify-center space-y-4 md:space-y-6">
-                                    {/* Desktop Only Typography */}
-                                    <div className="hidden md:block space-y-2">
-                                        <p className="text-accent font-mono text-xs uppercase tracking-[0.3em]">Trending Auction</p>
-                                        <h2 className="text-6xl font-heading font-semibold tracking-tight text-white">
-                                            {product.name}
-                                        </h2>
-                                        <p className="text-secondary text-lg max-w-md leading-relaxed mt-4">
+                                {/* Info & Action Layer (Separate card on mobile) */}
+                                <div className="w-full max-w-[380px] md:max-w-none md:w-1/2 flex flex-col justify-center">
+                                    <div className="hidden md:block mb-8 space-y-6">
+                                        <p className="text-secondary text-xl leading-relaxed max-w-lg">
                                             {product.description}
                                         </p>
                                     </div>
 
-                                    {/* Pricing and Action */}
-                                    <div className="bg-white/[0.03] md:bg-transparent p-4 md:p-0 rounded-2xl border border-white/5 md:border-0 w-full backdrop-blur-sm">
-                                        <div className="flex items-end justify-between md:justify-start md:gap-12 mb-4 md:py-4 md:border-y md:border-white/5">
+                                    <div className="glass-panel p-6 md:p-8 rounded-[2rem] border border-white/5 shadow-2xl backdrop-blur-3xl">
+                                        <div className="flex items-end justify-between md:justify-start md:gap-16 mb-8">
                                             <div>
-                                                <p className="text-secondary/60 text-[8px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Live Price</p>
-                                                <PriceDisplay price={product.currentPrice} size="sm" className="md:size-lg" />
+                                                <p className="text-secondary/60 text-[10px] uppercase tracking-widest mb-2">Live Price</p>
+                                                <PriceDisplay price={product.currentPrice} size="lg" />
                                             </div>
                                             <div className="text-right md:text-left">
-                                                <p className="text-secondary/60 text-[8px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Drop</p>
-                                                <div className="text-accent flex items-center gap-1 text-base md:text-2xl font-bold justify-end md:justify-start">
-                                                    <TrendingDown size={14} className="md:w-6 md:h-6" />
+                                                <p className="text-secondary/60 text-[10px] uppercase tracking-widest mb-2">Drop</p>
+                                                <div className="text-accent flex items-center gap-2 text-2xl md:text-4xl font-bold justify-end md:justify-start tabular-nums">
+                                                    <TrendingDown size={24} className="md:w-8 md:h-8" />
                                                     {discount > 0 ? discount.toFixed(1) : "35.2"}%
                                                 </div>
                                             </div>
                                         </div>
 
                                         <Button
-                                            size="md"
-                                            className="w-full md:w-auto px-8 md:py-4 text-sm md:text-base font-semibold"
+                                            size="lg"
+                                            className="w-full md:w-auto px-12 py-5 text-base md:text-lg font-bold shadow-xl shadow-accent/20 hover:shadow-accent/40"
                                             onClick={() => onSelect(product.id)}
                                         >
                                             View Auction
@@ -158,32 +150,32 @@ export const TrendingSlider: React.FC<TrendingSliderProps> = ({ products, onSele
                 </div>
             </div>
 
-            {/* Manual Controls */}
-            <div className="absolute bottom-6 right-0 left-0 md:left-auto md:right-12 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-4 z-20">
-                <div className="flex gap-1.5 md:gap-2">
+            {/* Pagination & Controls */}
+            <div className="absolute bottom-12 left-0 right-0 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-6 z-20">
+                <div className="flex gap-3">
                     {products.map((_, i) => (
                         <div
                             key={i}
-                            className={`h-0.5 md:h-1 transition-all duration-300 rounded-full ${i === activeIndex ? 'w-6 md:w-8 bg-accent' : 'w-1.5 md:w-2 bg-white/20'
+                            className={`h-1.5 transition-all duration-500 rounded-full ${i === activeIndex ? 'w-10 bg-accent' : 'w-3 bg-white/10'
                                 }`}
                         />
                     ))}
                 </div>
 
-                <div className="hidden md:flex items-center gap-3">
+                <div className="hidden md:flex items-center gap-4">
                     <button
                         onClick={prevSlide}
-                        className="p-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-white"
-                        aria-label="Previous slide"
+                        className="p-4 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 transition-all text-white group"
+                        aria-label="Previous"
                     >
-                        <ChevronLeft size={20} />
+                        <ChevronLeft size={24} className="group-hover:-translate-x-0.5 transition-transform" />
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="p-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-white"
-                        aria-label="Next slide"
+                        className="p-4 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 transition-all text-white group"
+                        aria-label="Next"
                     >
-                        <ChevronRight size={20} />
+                        <ChevronRight size={24} className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
                 </div>
             </div>
