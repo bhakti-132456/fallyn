@@ -211,17 +211,17 @@ const App: React.FC = () => {
 
               {/* Typography */}
               <div
-                className="relative z-10 px-8 md:px-24 max-w-[1400px] mx-auto w-full opacity-0 animate-fade-in-delayed mt-[-20vh] md:mt-0"
+                className="relative z-10 px-6 md:px-24 max-w-[1400px] mx-auto w-full opacity-0 animate-fade-in-delayed mt-[-20vh] md:mt-0"
                 style={{
                   // Fade out as we finally scroll past
                   opacity: interpolate(exitProgress, [0.4, 0.9], [1, 0])
                 }}
               >
                 <div className="space-y-4 md:space-y-6">
-                  <h1 className="font-heading font-medium text-5xl md:text-8xl lg:text-9xl leading-snug md:leading-[1.1] tracking-normal text-white drop-shadow-lg mix-blend-screen">
+                  <h1 className="font-heading font-medium text-4xl sm:text-5xl md:text-8xl lg:text-9xl leading-tight md:leading-[1.1] tracking-tight md:tracking-normal text-white drop-shadow-lg mix-blend-screen">
                     Watch the <br /> price fall.
                   </h1>
-                  <h2 className="font-heading font-medium text-5xl md:text-8xl lg:text-9xl leading-snug md:leading-[1.1] tracking-normal text-accent drop-shadow-lg mix-blend-screen">
+                  <h2 className="font-heading font-medium text-4xl sm:text-5xl md:text-8xl lg:text-9xl leading-tight md:leading-[1.1] tracking-tight md:tracking-normal text-accent drop-shadow-lg mix-blend-screen">
                     Decide the <br /> moment.
                   </h2>
                 </div>
@@ -229,11 +229,12 @@ const App: React.FC = () => {
 
               {/* Scroll Indicator */}
               <div
-                className="absolute bottom-12 left-0 right-0 flex justify-center opacity-50 z-10 pointer-events-none h-screen items-end pb-12"
+                className="absolute bottom-24 md:bottom-12 left-0 right-0 flex justify-center opacity-50 z-10 pointer-events-none h-screen items-end pb-8 md:pb-12"
                 style={{ opacity: interpolate(exitProgress, [0, 0.1], [1, 0]) }}
               >
-                <div className="animate-bounce">
-                  <ChevronDown size={24} className="text-white/50" />
+                <div className="flex flex-col items-center gap-2 animate-bounce">
+                  <span className="text-[10px] uppercase tracking-widest text-white/50">Scroll</span>
+                  <ChevronDown size={20} className="text-white/50" />
                 </div>
               </div>
             </div>

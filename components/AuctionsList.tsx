@@ -42,7 +42,7 @@ export const AuctionsList: React.FC<AuctionsListProps> = ({ products, onSelect }
         <div className="h-full w-full overflow-y-auto bg-canvas pt-32 pb-20 px-4 md:px-8 relative no-scrollbar">
 
             {/* Floating Control Bar */}
-            <div className="fixed top-20 left-0 right-0 z-40 flex justify-center px-4 pointer-events-none">
+            <div className="fixed top-16 md:top-20 left-0 right-0 z-40 flex justify-center px-4 pointer-events-none">
                 <div className="w-full max-w-5xl flex items-center gap-2 md:gap-3 pointer-events-auto">
                     {/* Category Filter */}
                     <div className="bg-surface/80 backdrop-blur-xl px-2 py-1.5 rounded-full border border-white/10 flex gap-1 overflow-x-auto no-scrollbar shadow-2xl max-w-[70vw] md:max-w-none">
@@ -72,12 +72,13 @@ export const AuctionsList: React.FC<AuctionsListProps> = ({ products, onSelect }
                     </button>
 
                     {/* Sort Dropdown */}
-                    <div className="hidden md:flex items-center gap-2 bg-surface/80 backdrop-blur-xl px-4 py-2.5 rounded-full border border-white/10 text-secondary shadow-2xl">
-                        <SlidersHorizontal size={14} />
+                    <div className="flex items-center gap-2 bg-surface/80 backdrop-blur-xl p-2.5 md:px-4 md:py-2.5 rounded-full border border-white/10 text-secondary shadow-2xl relative group hover:border-white/20 transition-colors">
+                        <SlidersHorizontal size={18} className="md:w-3.5 md:h-3.5" />
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value as SortOption)}
-                            className="bg-transparent text-[10px] uppercase tracking-widest focus:outline-none text-white cursor-pointer [&>option]:bg-surface [&>option]:text-white"
+                            className="absolute inset-0 opacity-0 cursor-pointer md:static md:opacity-100 md:bg-transparent md:text-[10px] md:uppercase md:tracking-widest md:text-white md:w-auto [&>option]:bg-surface [&>option]:text-white focus:outline-none"
+                            aria-label="Sort auctions"
                         >
                             <option value="ending-soon">Ending Soon</option>
                             <option value="price-low">Lowest Price</option>

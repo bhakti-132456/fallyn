@@ -72,7 +72,7 @@ export const AuctionCard: React.FC<AuctionCardProps> = ({ product, onBuy }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 relative z-10 -mt-12 md:-mt-16">
+      <div className="p-4 md:p-6 relative z-10 -mt-12 md:-mt-16">
         <div className="glass-panel p-4 rounded-xl border border-white/5 backdrop-blur-xl">
           <h3 className="text-xl font-semibold text-primary mb-1 tracking-tight">{product.name}</h3>
           <p className="text-secondary text-sm mb-4 line-clamp-1">{product.description}</p>
